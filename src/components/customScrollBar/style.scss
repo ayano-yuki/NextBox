@@ -1,0 +1,17 @@
+.CustomScrollWrapper {
+    position: relative;
+  }
+  
+  .ScrollableContent {
+    overflow-y: scroll;
+  }
+  
+  .ScrollbarTrack {
+    background: #eee;
+  }
+  
+  .ScrollbarThumb {
+    background: #999;
+    border-radius: 4px;
+  }
+  

@@ -1,0 +1,20 @@
+@import "@/style/zenn-content.css";
+
+.split-container {
+  height: 100vh;
+  display: flex;
+}
+
+.split-panel {
+  flex: 1;
+  padding: 1rem;
+}
+
+.panel-left {
+  background-color: #e0f7fa; 
+}
+
+.panel-right {
+  background-color: #ffebee;
+  border-left: 1px solid #ccc;
+}

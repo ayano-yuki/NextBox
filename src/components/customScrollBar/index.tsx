@@ -1,5 +1,3 @@
-"use client";
-
 import type { CustomScrollBarProps } from './type';
 import { useState, useEffect, type ReactNode } from 'react';
 import  './style.scss';

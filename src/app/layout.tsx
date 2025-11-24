@@ -1,13 +1,17 @@
-export const metadata = {
-  title: "My App",
-  description: "Example",
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+import Script from 'next/script';
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="ja">
+      <body>
+        <Script 
+          src="https://embed.zenn.studio/js/listen-embed-event.js"
+        />
+        {children}
+      </body>
     </html>
   );
 }
-  

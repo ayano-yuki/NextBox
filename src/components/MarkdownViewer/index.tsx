@@ -1,22 +1,14 @@
-"use client"; 
+import "@/style/main.scss"; 
+import { getConvertedHtml } from "@/lib/getMarkdownHtml";
+import type { MarkdownViewerProps } from "./type";
 
-type MarkdownViewerProps = {
-  htmlContent: string;
-};
+export const MarkdownViewer = async(props: MarkdownViewerProps) => {
+  const { markdownFilePath } = props;
+  const htmlContent = await getConvertedHtml(markdownFilePath);
 
-export function MarkdownViewer({ htmlContent }: MarkdownViewerProps) {
   return (
-    <div>
+    <div className="markdown-content">
       <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-      
-      {/* styled-jsx をここ（Client Component）で使用します */}
-      <style jsx>{`
-        /* 独自のスタイルをここに追加 */
-        div :global(.znc) {
-          padding: 1rem;
-          border: 1px solid #eee;
-        }
-      `}</style>
     </div>
   );
 }

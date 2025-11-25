@@ -1,0 +1,20 @@
+.split-container {
+  height: 100vh;
+  display: flex;
+}
+
+.split-panel {
+  flex: 1;
+  padding: 1rem;
+}
+
+.panel-left {
+  background-color: #e0f7fa; 
+  overflow: auto;
+}
+
+.panel-right {
+  background-color: #ffebee;
+  overflow: auto;
+  border-left: 1px solid #ccc;
+}

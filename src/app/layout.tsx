@@ -1,9 +1,12 @@
 import Script from 'next/script';
-export default function RootLayout({
-  children,
-}: {
+
+type Props = {
   children: React.ReactNode;
-}) {
+}
+
+const LAYOUT = (props: Props) =>{
+  const { children } = props;
+  
   return (
     <html lang="ja">
       <body>
@@ -15,3 +18,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+export default LAYOUT;

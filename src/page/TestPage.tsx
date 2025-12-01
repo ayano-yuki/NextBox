@@ -1,5 +1,5 @@
 import "@/style/main.scss";
-import { SplitLayout } from "@/components/SplitLayout/index";
+import { SplitLayout } from "@/components/SplitLayout";
 
 export const TestPage = () => {
   return (

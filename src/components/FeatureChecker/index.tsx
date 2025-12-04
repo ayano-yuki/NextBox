@@ -14,7 +14,7 @@ function supportsCssProperty(name: string): boolean {
   }
 }
 
-// CSS: 関数名判定 color: xxx(…) の形式でレンダリング可能か？
+// CSS: 関数名判定
 function supportsCssFunction(name: string): boolean {
   try {
     return CSS.supports(`color: ${name}(1 2 3)`);
@@ -23,27 +23,11 @@ function supportsCssFunction(name: string): boolean {
   }
 }
 
-// JS / TS: window に存在?
+// JS: グローバルオブジェクト判定
 function supportsJsGlobal(name: string): boolean {
   return name in window;
 }
 
-// Web Animations: 3 つの基準のいずれか
-function supportsWebAnimationsByName(name: string) {
-  if (name === "animate") {
-    return typeof Element.prototype.animate === "function";
-  }
-  if (name === "KeyframeEffect") {
-    return "KeyframeEffect" in window;
-  }
-  if (name === "Animation") {
-    return "Animation" in window;
-  }
-  return false;
-}
-
-
-// ---- Component ----
 export const FeatureChecker: React.FC = () => {
   const [input, setInput] = useState("");
 
@@ -54,7 +38,6 @@ export const FeatureChecker: React.FC = () => {
       cssProperty: supportsCssProperty(input),
       cssFunction: supportsCssFunction(input),
       jsGlobal: supportsJsGlobal(input),
-      webAnimations: supportsWebAnimationsByName(input),
     };
   }, [input]);
 
@@ -64,7 +47,7 @@ export const FeatureChecker: React.FC = () => {
         className="feature-input"
         type="text"
         value={input}
-        placeholder="CSS/JS/Web Animations の識別子を入力"
+        placeholder="CSS/JS の識別子を入力"
         onChange={(e) => setInput(e.target.value)}
       />
 
@@ -88,10 +71,6 @@ export const FeatureChecker: React.FC = () => {
             <tr>
               <td>JS グローバル</td>
               <td>{features.jsGlobal ? "○" : "×"}</td>
-            </tr>
-            <tr>
-              <td>Web Animations API</td>
-              <td>{features.webAnimations ? "○" : "×"}</td>
             </tr>
           </tbody>
         </table>

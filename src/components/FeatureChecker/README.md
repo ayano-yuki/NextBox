@@ -6,7 +6,6 @@
 **CSS プロパティ名**
 **CSS 関数名**
 **JavaScript グローバルオブジェクト**
-**Web Animations API**
 として使用可能かどうかを判定するための UI コンポーネント。
 
 ブラウザ環境での **フィーチャーディテクション（機能検出）** をシンプルに行える。
@@ -44,7 +43,6 @@ export default function FeatureCheckerPage() {
 | `color`      | CSS プロパティ             |
 | `brightness` | CSS 関数 `brightness()` |
 | `fetch`      | JS グローバル関数            |
-| `Animation`  | Web Animations API    |
 | `hogeHoge`   | 存在しない識別子 → すべて ×      |
 
 # 3. シナリオ（ユースケース）
@@ -64,12 +62,7 @@ export default function FeatureCheckerPage() {
 例えば `"fetch"` を判定すれば
 グローバル実装があるか一覧に出る。
 
-## ▼ **3. Web Animations API が使えるか確認したい**
-
-`Element.prototype.animate` の有無、
-`KeyframeEffect`, `Animation` の存在をまとめてチェック。
-
-## ▼ **4. UI モジュールとしてプロジェクトに組み込む**
+## ▼ **3. UI モジュールとしてプロジェクトに組み込む**
 
 Next.js・React の任意のページに貼れば
 ブラウザ環境の機能検出ツールになる。
@@ -114,13 +107,6 @@ name in window
 `EyeDropper` → （ブラウザによる）
 `somethingUnknown` → ×
 
-### ■ 4.4 Web Animations API の判定
-
-```ts
-typeof Element.prototype.animate === "function" ||
-"KeyframeEffect" in window ||
-"Animation" in window
-```
 
 例:
 `Chrome / Firefox / Safari` → ○
@@ -134,6 +120,4 @@ typeof Element.prototype.animate === "function" ||
 | `rotate`         | CSS関数 = ○          |
 | `fetch`          | JSグローバル = ○        |
 | `EyeDropper`     | JSグローバル（環境次第）      |
-| `Animation`      | Web Animations = ○ |
-| `KeyframeEffect` | Web Animations = ○ |
 | `hogeHoge`       | 全部 ×               |

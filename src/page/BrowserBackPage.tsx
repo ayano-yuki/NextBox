@@ -4,7 +4,7 @@ import { BrowserBack } from "@/components/BrowserBack";
 
 export const BrowserBackPage = () => {
   return (
-    <SplitLayout markdownPath="src\components\BrowserBack\README.md">
+    <SplitLayout markdownPath="src/components/BrowserBack/README.md">
       <BrowserBack />
     </SplitLayout>
   );

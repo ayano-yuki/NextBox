@@ -4,7 +4,7 @@ import { FeatureChecker } from "@/components/FeatureChecker";
 
 export const FeatureCheckerPage = () => {
   return (
-    <SplitLayout markdownPath="src\components\FeatureChecker\README.md">
+    <SplitLayout markdownPath="src/components/FeatureChecker/README.md">
       <FeatureChecker />
     </SplitLayout>
   );

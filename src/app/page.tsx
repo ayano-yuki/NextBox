@@ -17,6 +17,9 @@ const Home = () => {
       <ul>
         {LINK("/test", "テストページ")}
       </ul>
+      <ul>
+        {LINK("/feature-checker", "機能判定ページ")}
+      </ul>
 
       <h2>関数</h2>
       <ul>

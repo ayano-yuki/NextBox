@@ -1,0 +1,32 @@
+.feature-check {
+  width: 100%;
+  max-width: 420px;
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+.feature-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.feature-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+
+  th {
+    background: #f4f4f4;
+  }
+}

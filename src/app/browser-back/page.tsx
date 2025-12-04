@@ -1,7 +1,7 @@
 import { BrowserBackPage } from "@/page/BrowserBackPage";
 
-const BROWSERBACK = () => {
+const BROWSER_BACK = () => {
   return <BrowserBackPage />;
 }
 
-export default BROWSERBACK;
+export default BROWSER_BACK;

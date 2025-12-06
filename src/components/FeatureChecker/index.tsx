@@ -1,45 +1,62 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 
-// ---- 判定ロジック ----
+// ---- JS 判定 ----
+// window.foo または window.foo.bar まで判定
+function supportsJs(identifier: string): boolean {
+  if (typeof window === "undefined") return false;
 
-// CSS: プロパティ名判定
-function supportsCssProperty(name: string): boolean {
+  const parts = identifier.split(".");
+  let obj: any = window;
+
+  for (const part of parts) {
+    if (obj && part in obj) {
+      obj = obj[part];
+    } else {
+      return false;
+    }
+  }
+  return true;
+}
+
+// ---- CSS 判定（プロパティ・関数まとめて判定） ----
+function supportsCss(identifier: string): boolean {
   try {
-    return CSS.supports(name, "initial");
+    // プロパティの可能性
+    if (CSS.supports(`${identifier}: initial`)) return true;
+
+    // 関数の可能性
+    if (CSS.supports(`${identifier}(1)`)) return true;
+
+    // 色関数
+    if (CSS.supports(`color: ${identifier}(0 0 0)`)) return true;
+
+    // filter 系の関数
+    if (CSS.supports(`filter: ${identifier}(1)`)) return true;
+
+    return false;
   } catch {
     return false;
   }
-}
-
-// CSS: 関数名判定
-function supportsCssFunction(name: string): boolean {
-  try {
-    return CSS.supports(`color: ${name}(1 2 3)`);
-  } catch {
-    return false;
-  }
-}
-
-// JS: グローバルオブジェクト判定
-function supportsJsGlobal(name: string): boolean {
-  return name in window;
 }
 
 export const FeatureChecker: React.FC = () => {
   const [input, setInput] = useState("");
+  const [mounted, setMounted] = useState(false);
 
-  const features = useMemo(() => {
-    if (!input) return null;
+  // DOM が完全に使えるようになってから判定
+  useEffect(() => setMounted(true), []);
+
+  const result = useMemo(() => {
+    if (!input || !mounted) return null;
 
     return {
-      cssProperty: supportsCssProperty(input),
-      cssFunction: supportsCssFunction(input),
-      jsGlobal: supportsJsGlobal(input),
+      css: supportsCss(input),
+      js: supportsJs(input),
     };
-  }, [input]);
+  }, [input, mounted]);
 
   return (
     <div className="feature-check">
@@ -47,11 +64,11 @@ export const FeatureChecker: React.FC = () => {
         className="feature-input"
         type="text"
         value={input}
-        placeholder="CSS/JS の識別子を入力"
+        placeholder="CSS or JS を入力 (例: color, rgb, console.log)"
         onChange={(e) => setInput(e.target.value)}
       />
 
-      {features && (
+      {result && (
         <table className="feature-table">
           <thead>
             <tr>
@@ -61,16 +78,12 @@ export const FeatureChecker: React.FC = () => {
           </thead>
           <tbody>
             <tr>
-              <td>CSS プロパティ</td>
-              <td>{features.cssProperty ? "○" : "×"}</td>
+              <td>CSS</td>
+              <td>{result.css ? "○" : "×"}</td>
             </tr>
             <tr>
-              <td>CSS 関数</td>
-              <td>{features.cssFunction ? "○" : "×"}</td>
-            </tr>
-            <tr>
-              <td>JS グローバル</td>
-              <td>{features.jsGlobal ? "○" : "×"}</td>
+              <td>JS</td>
+              <td>{result.js ? "○" : "×"}</td>
             </tr>
           </tbody>
         </table>

@@ -3,12 +3,11 @@
 ## 1. 目的
 
 入力された文字列（識別子）が
-**CSS プロパティ名**
-**CSS 関数名**
-**JavaScript グローバルオブジェクト**
-として使用可能かどうかを判定するための UI コンポーネント。
+**CSS の機能（プロパティ または 関数として有効）**
+**JavaScript のグローバル（window.xxx または window.xxx.yyy）**
+として使用可能かどうかを判定する UI コンポーネント。
 
-ブラウザ環境での **フィーチャーディテクション（機能検出）** をシンプルに行える。
+ブラウザ環境での **フィーチャーディテクション（機能検出）** を手軽に行える。
 
 # 2. コンポーネントの使い方
 
@@ -31,93 +30,102 @@ export default function FeatureCheckerPage() {
 }
 ```
 
-### ■ 2.3 実行すると表示される UI
+### ■ 2.3 表示される UI
 
 * 識別子入力用の `<input>`
-* 判定テーブル（入力があると表示）
+* 判定結果テーブル（入力時に表示）
 
-入力例として：
+入力例：
 
-| 入力例          | 説明                    |
-| ------------ | --------------------- |
-| `color`      | CSS プロパティ             |
-| `brightness` | CSS 関数 `brightness()` |
-| `fetch`      | JS グローバル関数            |
-| `hogeHoge`   | 存在しない識別子 → すべて ×      |
+| 入力例           | 説明               |
+| ------------- | ---------------- |
+| `color`       | CSS プロパティ        |
+| `rgb`         | CSS 関数 `rgb()`   |
+| `console`     | JS グローバルオブジェクト   |
+| `console.log` | JS のネストされたプロパティ  |
+| `hogeHoge`    | 存在しない識別子 → すべて × |
 
 # 3. シナリオ（ユースケース）
 
-## ▼ **1. CSS/JS を学習している人が実験したい**
+## ▼ 1. CSS / JS の対応状況を調べたいとき
 
-「このプロパティ/関数ってブラウザ対応してるの？」
-→ 入力するだけで判定できる。
+例：
 
-例:
-`backdrop-filter` → ○
-`color-mix` → ○
-`container` → Chrome では ○
+* `backdrop-filter` → CSS で ○
+* `color-mix` → CSS で ○
+* `container` → ブラウザによって ○ / ×
 
-## ▼ **2. ライブラリや polyfill を書くときの事前チェック**
+## ▼ 2. ライブラリ実装前の対応チェック
 
-例えば `"fetch"` を判定すれば
-グローバル実装があるか一覧に出る。
+例えば `"fetch"` を入れると
+グローバルに実装されているかどうか分かる。
 
-## ▼ **3. UI モジュールとしてプロジェクトに組み込む**
+## ▼ 3. プロジェクトの開発補助ツールとして利用
 
-Next.js・React の任意のページに貼れば
-ブラウザ環境の機能検出ツールになる。
+Next.js / React の任意のページに貼るだけで
+ブラウザの CSS/JS 機能検出ツールになる。
 
 # 4. 判定ロジックまとめ
 
-### ■ 4.1 CSS プロパティの判定
+## ■ 4.1 CSS の判定（プロパティ・関数まとめて判定）
+
+### ▼ プロパティ判定
 
 ```ts
-CSS.supports(name, "initial")
+CSS.supports(`${identifier}: initial`)
 ```
 
-* CSS プロパティ名が有効なら `true`
-* 無効な場合 `false`
-
-例:
-`color` → ○
-`backdrop-filter` → ○
-`unknown-prop` → ×
-
-### ■ 4.2 CSS 関数の判定
+### ▼ 関数判定（2パターン）
 
 ```ts
-CSS.supports(`color: ${name}(1 2 3)`)
+CSS.supports(`${identifier}(1)`)
+CSS.supports(`color: ${identifier}(0 0 0)`)
+CSS.supports(`filter: ${identifier}(1)`)
 ```
 
-値として与えた際にレンダリング可能かどうかで判定。
+#### 例
 
-例:
-`brightness` → ○（brightness(…)）
-`hogeFunc` → ×
+| 入力            | CSS 判定 |
+| ------------- | ------ |
+| `color`       | ○      |
+| `rgb`         | ○      |
+| `brightness`  | ○      |
+| `unknownProp` | ×      |
+| `hogeFunc`    | ×      |
 
-### ■ 4.3 JS / TS グローバルオブジェクトの存在判定
+## ■ 4.2 JS の判定（`window.xxx` / `window.xxx.yyy` に対応）
+
+ドット区切りを順番に辿って存在するか確認する。
 
 ```ts
-name in window
+const parts = identifier.split(".");
+let obj = window;
+
+for (const part of parts) {
+  if (part in obj) obj = obj[part];
+  else return false;
+}
+return true;
 ```
 
-例:
-`fetch` → ○
-`requestAnimationFrame` → ○
-`EyeDropper` → （ブラウザによる）
-`somethingUnknown` → ×
+#### 例
 
+| 入力              | JS 判定       |
+| --------------- | ----------- |
+| `fetch`         | ○           |
+| `console`       | ○           |
+| `console.log`   | ○           |
+| `EyeDropper`    | ○/×（ブラウザ依存） |
+| `unknownGlobal` | ×           |
 
-例:
-`Chrome / Firefox / Safari` → ○
+# 5. 自動テストしやすい入力例一覧
 
-# 5. 自動でテストしやすい入力例一覧
-
-| テスト入力            | 想定結果               |
-| ---------------- | ------------------ |
-| `color`          | CSSプロパティ = ○       |
-| `brightness`     | CSS関数 = ○          |
-| `rotate`         | CSS関数 = ○          |
-| `fetch`          | JSグローバル = ○        |
-| `EyeDropper`     | JSグローバル（環境次第）      |
-| `hogeHoge`       | 全部 ×               |
+| テスト入力         | 想定結果           |
+| ------------- | -------------- |
+| `color`       | CSS = ○        |
+| `rgb`         | CSS = ○        |
+| `brightness`  | CSS = ○        |
+| `fetch`       | JS = ○         |
+| `console.log` | JS = ○         |
+| `EyeDropper`  | JS = ○/×（環境依存） |
+| `hogeHoge`    | 両方 ×           |

@@ -1,0 +1,33 @@
+.virtua-container {
+  height: 90vh;     
+  overflow-y: auto;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.virtua-container::-webkit-scrollbar {
+  display: none; 
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.list-item {
+  background: #ff9f9f;
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.loading,
+.end {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+}

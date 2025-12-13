@@ -12,16 +12,17 @@
     "next": "16.0.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "sass": "^1.94.1",
+    "sass": "^1.94.2",
+    "virtua": "^0.48.2",
     "zenn-markdown-html": "^0.2.10"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/node": "^20.19.25",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9",
+    "eslint": "^9.39.1",
     "eslint-config-next": "16.0.3",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }

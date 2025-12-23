@@ -1,4 +1,4 @@
-# FeatureChecker コンポーネント
+# FeatureChecker
 
 ## 1. 目的
 

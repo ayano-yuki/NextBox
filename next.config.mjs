@@ -7,5 +7,8 @@ const withNextra = nextra({
  
 // Export the final Next.js config with Nextra included
 export default withNextra({
-  // ... Add regular Next.js options here
+  // Include generated Pagefind assets in the server trace for the route handler.
+  outputFileTracingIncludes: {
+    '/_pagefind/\\[\\.\\.\\.path\\]': ['./.pagefind/**/*']
+  }
 })

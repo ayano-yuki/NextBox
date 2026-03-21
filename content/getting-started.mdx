@@ -1,0 +1,38 @@
+---
+title: Getting Started
+description: このプロジェクトで次に触るポイントです。
+---
+
+# Getting Started
+
+このプロジェクトでは、`content` ディレクトリ配下の `.mdx` がそのままドキュメントとして配信されます。
+
+## 基本の流れ
+
+1. `src` か `components` 配下に、解説したい関数やコンポーネントを置きます。
+2. `content` 配下に、対応する `.mdx` を作ります。
+3. MDX の中で対象を import して、解説とプレビューを書きます。
+4. `SourceFile` でソース全文を表示します。
+
+## 検索
+
+検索は `pagefind` を使っています。`pnpm build` 実行後に `public/_pagefind` が生成され、検索 UI から結果を引けるようになります。
+
+## ルーティング
+
+`content/components/examples/sample-counter.mdx` を追加すると、ルートは `/components/examples/sample-counter` になります。
+
+このため、`content` のフォルダ構造をそのままドキュメント URL に対応させられます。
+
+## セクション名の付け方
+
+`_meta.js` は使わず、各フォルダの `index.mdx` でセクションの名前を持たせます。
+
+たとえば `content/components/index.mdx` に以下を書けば、`/components` ページを作りつつサイドバー上のフォルダ名もそのタイトルに寄せられます。
+
+```mdx
+---
+title: Components
+asIndexPage: true
+---
+```

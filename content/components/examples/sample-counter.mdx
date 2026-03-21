@@ -1,0 +1,26 @@
+---
+title: SampleCounter
+description: インタラクション付きコンポーネントを Nextra 上で解説するサンプルです。
+---
+
+import { SampleCounterPreview } from '../../../components/previews/SampleCounterPreview'
+
+# SampleCounter
+
+`SampleCounter` は最小構成の client component です。MDX 上でそのまま描画することで、クリック時の状態変化まで確認できます。
+
+## 何を確認できるか
+
+- 初期値の表示
+- ボタン押下時の状態更新
+- `initialCount` と `step` props の違い
+
+<SampleCounterPreview />
+
+## 実装メモ
+
+- `useState` だけで完結する小さなサンプルです。
+- props を小さく保っているので、解説対象として見通しが良いです。
+- `SourceFile` で対象ファイルをまるごと埋め込んでいます。
+
+<SourceFile path="src/components/examples/SampleCounter.jsx" />

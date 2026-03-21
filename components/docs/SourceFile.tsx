@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import nodePath from 'node:path'
+import { codeToHtml } from 'shiki'
 
 type SourceFileProps = {
   path?: string
@@ -25,6 +26,14 @@ const rootAliases = {
 }
 
 const allowedRoots = ['app', 'components', 'content', 'src']
+
+const escapeHtml = (value: string) =>
+  value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
 
 export const SourceFile = async ({
   path,
@@ -68,6 +77,16 @@ export const SourceFile = async ({
   const source = await readFile(absolutePath, 'utf8')
   const detectedLanguage =
     language || languageByExtension[nodePath.extname(absolutePath).toLowerCase()] || 'text'
+  const highlightedHtml = await codeToHtml(source, {
+    lang: detectedLanguage,
+    theme: 'github-dark'
+  }).catch(() =>
+    [
+      '<pre class="shiki github-dark" style="background-color:#0d1117;color:#e6edf3" tabindex="0">',
+      `<code>${escapeHtml(source)}</code>`,
+      '</pre>'
+    ].join('')
+  )
 
   return (
     <section
@@ -93,17 +112,18 @@ export const SourceFile = async ({
         <strong>{title || relativePath}</strong>
         <span style={{ color: '#a1a1aa' }}>{detectedLanguage}</span>
       </header>
-      <pre
+      <div
         style={{
-          margin: 0,
-          padding: '1rem',
-          overflowX: 'auto',
           fontSize: '0.9rem',
           lineHeight: 1.6
         }}
-      >
-        <code>{source}</code>
-      </pre>
+        dangerouslySetInnerHTML={{
+          __html: highlightedHtml.replace(
+            '<pre class="shiki',
+            '<pre style="margin:0;padding:1rem;overflow-x:auto" class="shiki'
+          )
+        }}
+      />
     </section>
   )
 }

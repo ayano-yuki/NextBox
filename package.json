@@ -16,6 +16,7 @@
 		"@types/node": "^25.5.0",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
-		"pagefind": "^1.4.0"
+		"pagefind": "^1.4.0",
+		"sass": "^1.97.3"
 	}
 }

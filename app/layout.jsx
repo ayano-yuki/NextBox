@@ -5,8 +5,8 @@ import 'nextra-theme-docs/style.css'
 
 export const metadata = {
   title: {
-    default: 'next-lab Docs',
-    template: '%s | next-lab Docs'
+    default: 'next-lab',
+    template: '%s | next-lab'
   },
   description: 'Nextra Docs Theme starter configured from the official setup guide.'
 }
@@ -17,7 +17,7 @@ const banner = (
   </Banner>
 )
 
-const navbar = <Navbar logo={<strong>next-lab Docs</strong>} />
+const navbar = <Navbar logo={<strong>next-lab</strong>} />
 const footer = <Footer>{new Date().getFullYear()} © next-lab.</Footer>
 
 export default async function RootLayout({ children }) {

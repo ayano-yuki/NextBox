@@ -1,10 +1,11 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Preview } from '../docs/Preview'
-import { useDisabledBrowserBack } from '../../src/functions/disabledBrowserBack'
+import type { CSSProperties } from 'react'
+import { Preview } from '$/docs/Preview'
+import { useDisabledBrowserBack } from '@/functions/disabledBrowserBack'
 
-const baseButtonStyle = {
+const baseButtonStyle: CSSProperties = {
   border: 'none',
   borderRadius: '999px',
   padding: '0.8rem 1.1rem',
@@ -13,7 +14,7 @@ const baseButtonStyle = {
   boxShadow: '0 10px 24px rgba(15, 23, 42, 0.12)'
 }
 
-export function DisabledBrowserBackPreview() {
+export const DisabledBrowserBackPreview = () => {
   const router = useRouter()
 
   useDisabledBrowserBack()

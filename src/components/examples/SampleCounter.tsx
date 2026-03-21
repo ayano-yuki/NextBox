@@ -1,8 +1,14 @@
 'use client'
 
+import type { CSSProperties } from 'react'
 import { useState } from 'react'
 
-const buttonStyle = {
+type SampleCounterProps = {
+  initialCount?: number
+  step?: number
+}
+
+const buttonStyle: CSSProperties = {
   padding: '0.7rem 1rem',
   border: 'none',
   borderRadius: '999px',
@@ -11,7 +17,10 @@ const buttonStyle = {
   cursor: 'pointer'
 }
 
-export function SampleCounter({ initialCount = 2, step = 1 }) {
+export const SampleCounter = ({
+  initialCount = 2,
+  step = 1
+}: SampleCounterProps) => {
   const [count, setCount] = useState(initialCount)
 
   return (

@@ -1,8 +1,16 @@
-export function Preview({
+import type { ReactNode } from 'react'
+
+type PreviewProps = {
+  title?: string
+  description?: string
+  children: ReactNode
+}
+
+export const Preview = ({
   title = 'Live Preview',
   description,
   children
-}) {
+}: PreviewProps) => {
   return (
     <section
       style={{

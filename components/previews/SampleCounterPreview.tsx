@@ -1,7 +1,7 @@
-import { Preview } from '../docs/Preview'
-import { SampleCounter } from '../../src/components/examples/SampleCounter'
+import { Preview } from '$/docs/Preview'
+import { SampleCounter } from '@/components/examples/SampleCounter'
 
-export function SampleCounterPreview() {
+export const SampleCounterPreview = () => {
   return (
     <Preview
       title="Live Preview"

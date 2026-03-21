@@ -1,6 +1,12 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 
+type SourceFileProps = {
+  path: string
+  language?: string
+  title?: string
+}
+
 const languageByExtension = {
   '.css': 'css',
   '.js': 'javascript',
@@ -12,20 +18,29 @@ const languageByExtension = {
   '.tsx': 'tsx'
 }
 
+const rootAliases = {
+  '$': 'components',
+  '@': 'src'
+}
+
 const allowedRoots = ['app', 'components', 'content', 'src']
 
-export async function SourceFile({
+export const SourceFile = async ({
   path: relativePath,
   language,
   title
-}) {
+}: SourceFileProps) => {
   if (!relativePath) {
     throw new Error('`SourceFile` requires a `path` prop.')
   }
 
   const normalizedPath = relativePath.replace(/\\/g, '/')
+  const aliasedPath = normalizedPath.replace(
+    /^([$@])(?=\/|$)/,
+    (_, alias) => rootAliases[alias]
+  )
   const matchedRoot = allowedRoots.find(
-    root => normalizedPath === root || normalizedPath.startsWith(`${root}/`)
+    root => aliasedPath === root || aliasedPath.startsWith(`${root}/`)
   )
 
   if (!matchedRoot) {
@@ -34,7 +49,7 @@ export async function SourceFile({
     )
   }
 
-  const relativeWithinRoot = normalizedPath.slice(matchedRoot.length).replace(/^\/+/, '')
+  const relativeWithinRoot = aliasedPath.slice(matchedRoot.length).replace(/^\/+/, '')
   const normalizedWithinRoot = path.normalize(relativeWithinRoot)
 
   if (normalizedWithinRoot.startsWith('..')) {

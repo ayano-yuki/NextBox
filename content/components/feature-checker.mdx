@@ -3,22 +3,20 @@ title: FeatureChecker
 description: 入力された文字列（識別子）がブラウザの機能として利用可能かどうかをチェックするコンポーネント
 ---
 
-import { FeatureCheckerPreview } from "../../components/previews/FeatureCheckerPreview"
+import { FeatureCheckerPreview } from '$/previews/FeatureCheckerPreview'
 
 # FeatureChecker
 
-<FeatureCheckerPreview />
-
-## 目的
-
-入力された文字列（識別子）が
-**CSS の機能（プロパティ または 関数として有効）**
+入力された文字列（識別子）が**CSS の機能（プロパティ または 関数として有効）**
 **JavaScript のグローバル（window.xxx または window.xxx.yyy）**
 として使用可能かどうかを判定する UI コンポーネント。
 
 ブラウザ環境での **フィーチャーディテクション（機能検出）** を手軽に行える。
 
-#  判定ロジックまとめ
+<FeatureCheckerPreview />
+
+
+#  やっていること
 
 ## CCSS の判定（プロパティ・関数まとめて判定）
 

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
@@ -20,7 +21,7 @@ const banner = (
 const navbar = <Navbar logo={<strong>next-lab</strong>} />
 const footer = <Footer>{new Date().getFullYear()} © next-lab.</Footer>
 
-export default async function RootLayout({ children }) {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <html lang="ja" dir="ltr" suppressHydrationWarning>
       <Head>
@@ -40,3 +41,5 @@ export default async function RootLayout({ children }) {
     </html>
   )
 }
+
+export default RootLayout

@@ -1,0 +1,21 @@
+---
+title: Markdown to Zenn
+description: MarkdownをZenn風の見た目に変換するコンポーネント
+---
+
+import { Markdown2ZennPreview } from '$/previews/Markdown2ZennPreview'
+
+# Markdown to Zenn
+
+MarkdownをZenn風の見た目に変換するコンポーネント
+
+<Markdown2ZennPreview />
+
+#  やっていること
+
+<SourceFile path="@/components/markdown2zenn/index.tsx" language="typescript" />
+
+
+1. Markdownファイルの文字列で読む
+2. zenn-markdown-html で HTML文字列に変換
+3. dangerouslySetInnerHTML で表示

@@ -1,8 +1,9 @@
 import { readFile } from 'node:fs/promises'
-import path from 'node:path'
+import nodePath from 'node:path'
 
 type SourceFileProps = {
-  path: string
+  path?: string
+  markdownFilePath?: string
   language?: string
   title?: string
 }
@@ -26,12 +27,15 @@ const rootAliases = {
 const allowedRoots = ['app', 'components', 'content', 'src']
 
 export const SourceFile = async ({
-  path: relativePath,
+  path,
+  markdownFilePath,
   language,
   title
 }: SourceFileProps) => {
+  const relativePath = path ?? markdownFilePath
+
   if (!relativePath) {
-    throw new Error('`SourceFile` requires a `path` prop.')
+    throw new Error('`SourceFile` requires either a `path` or `markdownFilePath` prop.')
   }
 
   const normalizedPath = relativePath.replace(/\\/g, '/')
@@ -50,20 +54,20 @@ export const SourceFile = async ({
   }
 
   const relativeWithinRoot = aliasedPath.slice(matchedRoot.length).replace(/^\/+/, '')
-  const normalizedWithinRoot = path.normalize(relativeWithinRoot)
+  const normalizedWithinRoot = nodePath.normalize(relativeWithinRoot)
 
   if (normalizedWithinRoot.startsWith('..')) {
     throw new Error('`SourceFile` path cannot escape the allowed directory.')
   }
 
-  const absolutePath = path.join(
+  const absolutePath = nodePath.join(
     /* turbopackIgnore: true */ process.cwd(),
     matchedRoot,
     normalizedWithinRoot
   )
   const source = await readFile(absolutePath, 'utf8')
   const detectedLanguage =
-    language || languageByExtension[path.extname(absolutePath).toLowerCase()] || 'text'
+    language || languageByExtension[nodePath.extname(absolutePath).toLowerCase()] || 'text'
 
   return (
     <section

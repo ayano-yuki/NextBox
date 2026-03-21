@@ -1,0 +1,5 @@
+# Next Lab
+
+```
+pnpm dev
+```
